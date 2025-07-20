@@ -57,7 +57,9 @@ function renderTasks() {
       </td>
 
       <td>
-        <button class="btn rounded-3 ${task.completed ? 'btn-secondary' : 'btn-success'} btn-complete" title="${task.completed ? 'Desmarcar' : 'Concluir'}" data-id="${task.id}">
+        <button 
+          class="btn rounded-3 ${task.completed ? 'btn-secondary' : 'btn-success'} btn-complete" 
+          title="${task.completed ? 'Desmarcar' : 'Concluir'}" data-id="${task.id}">
           <i class="bi bi-check-lg"></i>
         </button>
 
@@ -124,30 +126,34 @@ function updateEmptyMessage() {
   }
 }
 
-form.addEventListener('submit', addTask);
+function init() {
+  form.addEventListener('submit', addTask);
 
-taskList.addEventListener('click', (e) => {
-  const btn = e.target.closest('button');
-  if (!btn) return;
+  taskList.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
 
-  const id = Number(btn.getAttribute('data-id'));
+    const id = Number(btn.getAttribute('data-id'));
 
-  if (btn.classList.contains('btn-complete')) {
-    toggleTask(id);
-  }
+    if (btn.classList.contains('btn-complete')) {
+      toggleTask(id);
+    }
 
-  if (btn.classList.contains('btn-delete')) {
-    taskIdToDelete = id;
-    modal.show();
-  }  
-});
+    if (btn.classList.contains('btn-delete')) {
+      taskIdToDelete = id;
+      modal.show();
+    }  
+  });
 
-confirmDeleteBtn.addEventListener('click', () => {
-  if (taskIdToDelete !== null) {
-    deleteTask(taskIdToDelete);
-    taskIdToDelete = null;
-    modal.hide();
-  }
-});
+  confirmDeleteBtn.addEventListener('click', () => {
+    if (taskIdToDelete !== null) {
+      deleteTask(taskIdToDelete);
+      taskIdToDelete = null;
+      modal.hide();
+    }
+  });
 
-loadTasks();
+  loadTasks();
+}
+
+init();

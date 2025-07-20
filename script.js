@@ -3,8 +3,12 @@ const inputPriority = document.querySelector('#priority');
 const form = document.querySelector('#task-form');
 const errorMessage = document.querySelector('#error-message');
 const taskList = document.querySelector('#task-list-body');
+const confirmationModal = document.querySelector('#confirmationModal');
+const confirmDeleteBtn = document.querySelector('#confirm-delete');
+const modal = new bootstrap.Modal(confirmationModal);
 
 let tasks = [];
+let taskIdToDelete = null;
 
 function showError(message) {
   errorMessage.textContent = message;
@@ -45,7 +49,7 @@ function renderTasks() {
           <i class="bi bi-check-lg"></i>
         </button>
 
-        <button class="btn bg-danger-subtle text-danger rounded-3" title="Excluir">
+        <button class="btn bg-danger-subtle text-danger rounded-3 btn-delete" title="Excluir" data-id="${task.id}">
           <i class="bi bi-trash"></i>
         </button>
       </td>
@@ -84,12 +88,33 @@ function toggleTask(id) {
   renderTasks();
 }
 
+function deleteTask(id) {
+  tasks = tasks.filter(task => task.id !== id);
+  renderTasks();
+}
+
 form.addEventListener('submit', addTask);
 
 taskList.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
-  if (!btn || !btn.classList.contains('btn-complete')) return;
+  if (!btn) return;
 
   const id = Number(btn.getAttribute('data-id'));
-  toggleTask(id);
+
+  if (btn.classList.contains('btn-complete')) {
+    toggleTask(id);
+  }
+
+  if (btn.classList.contains('btn-delete')) {
+    taskIdToDelete = id;
+    modal.show();
+  }  
+});
+
+confirmDeleteBtn.addEventListener('click', () => {
+  if (taskIdToDelete !== null) {
+    deleteTask(taskIdToDelete);
+    taskIdToDelete = null;
+    modal.hide();
+  }
 });

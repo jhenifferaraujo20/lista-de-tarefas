@@ -1,9 +1,16 @@
 const inputTask = document.querySelector("#task-input");
 const inputPriority = document.querySelector("#priority");
 const form = document.querySelector("#task-form");
+const errorMessage = document.querySelector("#error-message");
 const taskList = document.querySelector("#task-list-body");
 
 let tasks = [];
+
+function showError(message) {
+  errorMessage.textContent = message;
+  errorMessage.classList.remove("d-none");
+  setTimeout(() => errorMessage.classList.add("d-none"), 4000);
+}
 
 function getPriorityClass(priority) {
   return (
@@ -51,6 +58,11 @@ function addTask(event) {
 
   const taskValue = inputTask.value.trim();
   const priorityValue = inputPriority.value;
+
+  if (!taskValue || !priorityValue) {
+    showError("Por favor, preencha a tarefa e a prioridade.");
+    return;
+  }
 
   tasks.push({
     id: Date.now(),

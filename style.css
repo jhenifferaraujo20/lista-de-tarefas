@@ -1,0 +1,29 @@
+body {
+ font-family: "Lexend", sans-serif;
+}
+
+.container {
+  max-width: 54rem;
+}
+
+#add-btn {
+  transition: transform 0.3s ease-in-out;
+}
+
+#add-btn:hover {
+  transform: scale(1.05);
+}
+
+.btn-delete,
+.badge {
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn-delete:hover,
+.badge:hover {
+  transform: scale(1.06);
+}
+
+.form-control, .form-select {
+  background-color: #F9F9FA;;
+}

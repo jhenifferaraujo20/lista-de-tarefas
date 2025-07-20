@@ -26,6 +26,18 @@ function getPriorityClass(priority) {
   );
 }
 
+function saveTasks() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function loadTasks() {
+  const stored = localStorage.getItem('tasks');
+  if (stored) {
+    tasks = JSON.parse(stored);
+  }
+  renderTasks();
+}
+
 function renderTasks() {
   taskList.innerHTML = '';
 
@@ -77,6 +89,7 @@ function addTask(event) {
     completed: false
   });
 
+  saveTasks();
   renderTasks();
 
   inputTask.value = '';
@@ -85,11 +98,13 @@ function addTask(event) {
 
 function toggleTask(id) {
   tasks = tasks.map(task => task.id === id ? { ...task, completed: !task.completed } : task);
+  saveTasks();
   renderTasks();
 }
 
 function deleteTask(id) {
   tasks = tasks.filter(task => task.id !== id);
+  saveTasks();
   renderTasks();
 }
 

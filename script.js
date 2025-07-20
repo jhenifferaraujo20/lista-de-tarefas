@@ -69,6 +69,7 @@ function renderTasks() {
 
     taskList.appendChild(tr);
   };
+  updateEmptyMessage();
 }
 
 function addTask(event) {
@@ -108,6 +109,21 @@ function deleteTask(id) {
   renderTasks();
 }
 
+function updateEmptyMessage() {
+  const taskTable = document.querySelector('#task-list');
+  const noTasksMessage = document.querySelector('#no-tasks-message');
+
+  const hasTasks = taskList.querySelectorAll('tr').length > 0;
+
+  if (hasTasks) {
+    taskTable.classList.remove('d-none');
+    noTasksMessage.classList.add('d-none');
+  } else {
+    taskTable.classList.add('d-none');
+    noTasksMessage.classList.remove('d-none');
+  }
+}
+
 form.addEventListener('submit', addTask);
 
 taskList.addEventListener('click', (e) => {
@@ -133,3 +149,5 @@ confirmDeleteBtn.addEventListener('click', () => {
     modal.hide();
   }
 });
+
+loadTasks();
